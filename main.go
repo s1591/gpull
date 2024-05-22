@@ -19,6 +19,7 @@ var (
 	nFolders         int
 	updateInProgress bool
 	currentFolder    int
+	quit             bool
 )
 
 func main() {
@@ -61,7 +62,7 @@ func (m model) Init() tea.Cmd {
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
-	if currentFolder < nFolders {
+	if !quit && currentFolder < nFolders {
 		var cmd tea.Cmd
 		if updateInProgress == false {
 			go m.updateCurrentDir()
@@ -78,6 +79,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
+
+	if len(folders) == 0 {
+		quit = true
+		return "No git Folders found" + "\n"
+	}
 
 	return m.tableString() + "\n"
 }

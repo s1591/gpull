@@ -80,10 +80,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() string {
 
-    if nFolders == 0 {
-        quit = true
-        return "no git folders found" + "\n"
-    }
+	if nFolders == 0 {
+		quit = true
+		return "no git folders found" + "\n"
+	}
 
 	return m.tableString() + "\n"
 }
@@ -92,6 +92,20 @@ func (m model) getFolders() {
 
 	cwd, _ := os.Getwd()
 	entries, _ := os.ReadDir(cwd)
+
+	if isGitDir(cwd) {
+		var name string
+        /* "/home/folder" -> folder */
+		for i := len(cwd) - 1; i >= 0; i-- {
+			if cwd[i] != '/' {
+				name = string(cwd[i]) + name
+			} else {
+				break
+			}
+		}
+		folders = append(folders, []string{name, m.dash, m.dash})
+		nFolders++
+	}
 
 	for _, e := range entries {
 		if e.IsDir() && isGitDir(e.Name()) {

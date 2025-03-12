@@ -223,6 +223,7 @@ func randomSpinner() spinner.Spinner {
 		// spinner.Ellipsis,
 		gamePadSpinner(),
 		circleSliceSpinner(),
+        pleaseWaitSpinner(),
 	}
 
 	return spinners[rand.Intn(len(spinners))]
@@ -240,5 +241,24 @@ func gamePadSpinner() spinner.Spinner {
 	return spinner.Spinner{
 		Frames: []string{"󰸴", "󰸵", "󰸸", "󰸷"},
 		FPS:    time.Second / 4,
+	}
+}
+
+func pleaseWaitSpinner() spinner.Spinner {
+	return spinner.Spinner{
+		Frames: []string{
+			"please wait",
+			"Please wait",
+			"pLease wait",
+			"plEase wait",
+			"pleAse wait",
+			"pleaSe wait",
+			"pleasE wait",
+			"please Wait",
+			"please wAit",
+			"please waIt",
+			"please waiT",
+		},
+		FPS: time.Second / 11,
 	}
 }

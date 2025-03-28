@@ -1,0 +1,30 @@
+name: Upload Build Artifact
+
+on:
+  push:
+    branches:
+      - main # or any other branch you want to trigger the workflow on
+
+jobs:
+  upload-artifact:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+      
+    - name: Build the project (if applicable)
+      run: |
+        # Add your build commands here, e.g., npm build, mvn package, etc.
+        echo "Building the project..."
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.6.2
+      with:
+        name: my-artifact   # You can specify an artifact name here
+        path: ./build/*      # Path to the file or directory you want to upload
+        if-no-files-found: warn  # Optional, change to 'ignore' or 'error' if preferred
+        retention-days: 30      # Optional, set retention period for the artifact
+        compression-level: 6    # Optional, adjust the compression level as needed
+        overwrite: true         # Optional, decide if you want to overwrite existing artifacts
+        include-hidden-files: false # Optional, decide whether to include hidden files
